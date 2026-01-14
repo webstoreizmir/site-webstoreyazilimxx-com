@@ -1,120 +1,65 @@
 {
-  "is_paid": false,
   "metadata": {
-    "title": "Modern Ajans Pro",
-    "description": "Profesyonel dijital çözümler."
+    "title": "İzmir Web Tasarım & Yazılım Çözümleri",
+    "description": "İzmir merkezli profesyonel web tasarım, özel yazılım ve otomasyon hizmetleri. Kalite ve deneyimle küçük işletmeler ve girişimciler için dijital çözümler sunuyoruz."
   },
   "theme": {
     "colors": {
-      "primary": "#2563eb",
-      "secondary": "#1e40af",
-      "background": "#0f172a",
-      "text": "#f8fafc"
+      "primary": "#0A2540",
+      "secondary": "#4A90E2",
+      "background": "#FFFFFF",
+      "text": "#333333"
     },
     "fonts": {
-      "heading": "Montserrat",
+      "heading": "Inter",
       "body": "Inter"
     },
-    "style": "modern"
+    "style": "corporate"
   },
   "images": {
-    "hero_keyword": "modern office architecture glass",
-    "about_keyword": "team meeting creative",
+    "hero_keyword": "professional software development team meeting",
+    "about_keyword": "experienced developer coding in modern office",
     "feature_keywords": [
-      "code",
-      "design",
-      "rocket"
+      "responsive web design interface",
+      "custom software dashboard",
+      "business process automation flowchart"
     ]
   },
   "content": {
     "hero": {
-      "headline": "Geleceği Şekillendiriyoruz",
-      "subheadline": "İşletmeniz için en modern teknolojileri kullanarak dijital dünyada fark yaratın.",
-      "ctaButtonText": "Hemen Başlayın"
+      "headline": "İşletmeniz İçin Modern Web Tasarım ve Yazılım Çözümleri",
+      "subheadline": "Kalite ve deneyimle, İzmir'deki küçük işletmeler ve girişimciler için dijitalde fark yaratan, profesyonel sonuçlar üretiyoruz.",
+      "ctaButtonText": "Teklif Alın"
     },
     "about": {
-      "title": "Biz Kimiz?",
-      "description": "2010 yılından beri sektörde öncü çözümler üretiyoruz. Müşteri memnuniyeti odaklı yaklaşımımızla markanızı zirveye taşıyoruz.",
-      "stats": [
-        {
-          "label": "Tamamlanan Proje",
-          "value": "500+"
-        },
-        {
-          "label": "Mutlu Müşteri",
-          "value": "150+"
-        },
-        {
-          "label": "Yıllık Deneyim",
-          "value": "12"
-        }
-      ]
+      "title": "Kalite ve Deneyimle Güçlenen Teknoloji Ortağınız",
+      "description": "İzmir'de, küçük işletmelerin ve girişimcilerin dijital hedeflerine ulaşmaları için yenilikçi yazılım çözümleri sunuyoruz. Deneyimli ekibimizle, projenizin her aşamasında kaliteyi ön planda tutarak, size özel web siteleri, yazılımlar ve otomasyon sistemleri geliştiriyoruz.",
+      "stats": []
     },
     "services": [
       {
         "title": "Web Tasarım",
-        "description": "Mobil uyumlu, hızlı ve modern web siteleri.",
+        "description": "Hedef kitlenize hitap eden, modern, mobil uyumlu ve kullanıcı dostu web siteleri tasarlayarak dijital kimliğinizi güçlendiriyoruz.",
+        "icon": "🌐"
+      },
+      {
+        "title": "Özel Yazılım Geliştirme",
+        "description": "İş süreçlerinizi analiz ederek, ihtiyaçlarınıza özel, ölçeklenebilir ve verimli yazılımlar geliştiriyoruz.",
         "icon": "💻"
       },
       {
-        "title": "SEO Optimizasyonu",
-        "description": "Google'da ilk sıralarda yerinizi alın.",
-        "icon": "🚀"
-      },
-      {
-        "title": "Sosyal Medya",
-        "description": "Markanızın sesini dünyaya duyurun.",
-        "icon": "📱"
+        "title": "Otomasyon Sistemleri",
+        "description": "Tekrarlayan görevlerinizi otomatize ederek zaman ve maliyet tasarrufu sağlamanıza, verimliliğinizi artırmanıza yardımcı oluyoruz.",
+        "icon": "⚙️"
       }
     ],
-    "testimonials": [
-      {
-        "name": "Ahmet Yılmaz",
-        "role": "CEO, Tech Corp",
-        "comment": "Harika bir ekip, işlerini zamanında ve mükemmel yapıyorlar."
-      },
-      {
-        "name": "Ayşe Demir",
-        "role": "Pazarlama Müdürü",
-        "comment": "Satışlarımız %200 arttı. Kesinlikle tavsiye ediyorum."
-      }
-    ],
-    "process": [
-      {
-        "step": "01",
-        "title": "Keşif ve Analiz",
-        "description": "İhtiyaçlarınızı dinliyor, hedeflerinizi belirliyoruz."
-      },
-      {
-        "step": "02",
-        "title": "Tasarım ve Planlama",
-        "description": "Modern ve kullanıcı dostu tasarımlar oluşturuyoruz."
-      },
-      {
-        "step": "03",
-        "title": "Geliştirme ve Teslimat",
-        "description": "Kodlama ve testleri tamamlayıp projenizi teslim ediyoruz."
-      }
-    ],
-    "faq": [
-      {
-        "question": "Proje teslim süresi ne kadar?",
-        "answer": "Projenin kapsamına göre 2-6 hafta arasında değişmektedir."
-      },
-      {
-        "question": "Ödeme koşulları nelerdir?",
-        "answer": "%50 peşin, %50 teslimat sonrası ödeme planı sunuyoruz."
-      },
-      {
-        "question": "Destek hizmeti veriyor musunuz?",
-        "answer": "Evet, teslim sonrası 6 ay ücretsiz teknik destek sağlıyoruz."
-      }
-    ],
+    "process": [],
+    "faq": [],
+    "testimonials": [],
     "contact": {
-      "address": "Levent, Büyükdere Cd. No:1, İstanbul",
-      "phone": "+90 555 123 45 67",
-      "email": "info@modernajans.com",
-      "map_query": "Istanbul"
+      "address": "İzmir, Türkiye",
+      "phone": "+905541103132",
+      "email": "info@izmirwebstore.com"
     }
   }
 }
