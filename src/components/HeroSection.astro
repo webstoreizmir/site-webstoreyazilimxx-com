@@ -1,0 +1,86 @@
+---
+// AKILLI BANNER SEÇİCİ (Unsplash Premium IDs)
+// Bu linkler sabittir, asla değişmez ve patlamaz.
+function getSmartHero(keyword: string) {
+  const k = keyword ? keyword.toLowerCase() : '';
+
+  // 1. MODA & TEKSTİL (Saten, Giyim, Mağaza)
+  if (k.includes('fashion') || k.includes('moda') || k.includes('giyim') || k.includes('textile') || k.includes('butik')) {
+    return "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1920&auto=format&fit=crop"; 
+  }
+
+  // 2. TEKNOLOJİ & YAZILIM (Kod, Matrix, Modern Ofis)
+  if (k.includes('tech') || k.includes('yazılım') || k.includes('web') || k.includes('code') || k.includes('digital')) {
+    return "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1920&auto=format&fit=crop";
+  }
+
+  // 3. İNŞAAT & EMLAK (Mimari, Bina, Proje)
+  if (k.includes('construction') || k.includes('inşaat') || k.includes('yapı') || k.includes('real estate') || k.includes('emlak')) {
+    return "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop";
+  }
+
+  // 4. SAĞLIK & DOKTOR (Klinik, Temiz, Beyaz)
+  if (k.includes('health') || k.includes('sağlık') || k.includes('doctor') || k.includes('medical') || k.includes('diş')) {
+    return "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1920&auto=format&fit=crop";
+  }
+
+  // 5. YEME & İÇME (Restoran, Cafe)
+  if (k.includes('food') || k.includes('yemek') || k.includes('restoran') || k.includes('cafe') || k.includes('coffee')) {
+    return "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1920&auto=format&fit=crop";
+  }
+
+  // VARSAYILAN (Genel Modern İş Dünyası - Her şeye uyar)
+  return "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop";
+}
+
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaButtonText: string;
+  imageKeyword: string;
+}
+
+const { headline, subheadline, ctaButtonText, imageKeyword } = Astro.props;
+
+// Fonksiyonu çağırıp doğru resmi alıyoruz
+const bgImage = getSmartHero(imageKeyword);
+---
+
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <img 
+      src={bgImage} 
+      alt="Hero Background" 
+      class="w-full h-full object-cover transition-transform duration-1000 transform hover:scale-105"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-slate-900/60"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+  </div>
+  
+  <div class="container mx-auto px-6 relative z-10 pt-20 text-center">
+    <div class="max-w-5xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-medium mb-8 backdrop-blur-md animate-fade-in">
+        <span class="w-2 h-2 rounded-full bg-[rgb(var(--color-primary))] animate-pulse"></span>
+        Profesyonel Çözümler
+      </div>
+
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-8 text-white leading-tight drop-shadow-2xl">
+        {headline}
+      </h1>
+      
+      <p class="text-lg md:text-2xl text-slate-200 mb-12 font-body max-w-3xl mx-auto leading-relaxed text-shadow">
+        {subheadline}
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-5 justify-center">
+        <a 
+          href="#contact"
+          class="px-8 py-4 text-lg font-bold text-white rounded-xl bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-secondary))] transition-all duration-300 shadow-xl shadow-[rgb(var(--color-primary))]/30 transform hover:-translate-y-1"
+        >
+          {ctaButtonText}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

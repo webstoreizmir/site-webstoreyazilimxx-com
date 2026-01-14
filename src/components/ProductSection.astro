@@ -1,0 +1,122 @@
+---
+// AKILLI İKON SEÇİCİ (Microsoft Fluent 3D Emojis)
+// Ürün isminde geçen kelimeye göre en doğru 3D ikonu bulur.
+// Bu liste genişletilebilir, her sektörü kapsar.
+function getSmartIcon(productName: string) {
+  const p = productName.toLowerCase();
+
+  // 1. TEKNOLOJİ & YAZILIM
+  if (p.includes('web') || p.includes('yazılım') || p.includes('kod') || p.includes('seo')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Laptop.png";
+  if (p.includes('mobil') || p.includes('app') || p.includes('uygulama')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mobile%20Phone.png";
+  if (p.includes('veri') || p.includes('data') || p.includes('analiz')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Chart%20Increasing.png";
+  if (p.includes('güvenlik') || p.includes('siber')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Shield.png";
+
+  // 2. E-TİCARET & FİNANS
+  if (p.includes('ticaret') || p.includes('satış') || p.includes('mağaza')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Shopping%20Cart.png";
+  if (p.includes('para') || p.includes('finans') || p.includes('muhasebe')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Coin.png";
+  if (p.includes('kargo') || p.includes('teslimat') || p.includes('lojistik')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Delivery%20Truck.png";
+
+  // 3. SAĞLIK & GÜZELLİK
+  if (p.includes('diş') || p.includes('dental')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Body/Tooth.png";
+  if (p.includes('sağlık') || p.includes('doktor') || p.includes('klinik')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Stethoscope.png";
+  if (p.includes('güzellik') || p.includes('bakım') || p.includes('kuaför')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Lipstick.png";
+
+  // 4. HUKUK & DANIŞMANLIK
+  if (p.includes('hukuk') || p.includes('avukat') || p.includes('yasa')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Balance%20Scale.png";
+  if (p.includes('danışman') || p.includes('fikir')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Light%20Bulb.png";
+
+  // 5. YEME & İÇME
+  if (p.includes('yemek') || p.includes('restoran') || p.includes('cafe')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Food/Hamburger.png";
+  if (p.includes('kahve')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Food/Hot%20Beverage.png";
+
+  // 6. İNŞAAT & EMLAK
+  if (p.includes('inşaat') || p.includes('yapı') || p.includes('mimari')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Building%20Construction.png";
+  if (p.includes('ev') || p.includes('emlak') || p.includes('konut')) return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/House.png";
+
+  // HİÇBİRİ UYMAZSA (Genel "Premium" İkon - Roket)
+  return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png";
+}
+
+// Örnek Veriler (Veritabanı boşsa bunlar görünür - Test için)
+const dummyProducts = [
+  {
+    name: "Kurumsal Web Tasarım",
+    description: "Marka imajınızı güçlendiren modern tasarımlar.",
+    image: "", 
+    link: "#"
+  },
+  {
+    name: "SEO & Dijital Pazarlama",
+    description: "Arama motorlarında en üst sıralara çıkın.",
+    image: "",
+    link: "#"
+  },
+  {
+    name: "Hukuki Danışmanlık",
+    description: "Profesyonel hukuk ve dava takibi süreçleri.",
+    image: "", // Otomatik Terazi ikonu gelecek
+    link: "#"
+  }
+];
+
+interface Product {
+  name: string;
+  description?: string;
+  image: string;
+  shopierLink?: string;
+}
+
+interface Props {
+  products?: Product[];
+}
+
+const { products } = Astro.props;
+const displayItems = (products && products.length > 0) ? products : dummyProducts;
+---
+
+<section id="products" class="py-32 bg-slate-50 relative overflow-hidden">
+  <div class="container mx-auto px-6 relative z-10">
+    
+    <div class="max-w-2xl mb-16">
+      <span class="text-[rgb(var(--color-primary))] font-bold tracking-wider uppercase text-sm mb-2 block">HİZMETLERİMİZ</span>
+      <h2 class="text-3xl md:text-5xl font-heading font-bold text-slate-900 mb-6">
+        Size Nasıl Değer Katabiliriz?
+      </h2>
+      <p class="text-slate-600 text-lg">İhtiyaçlarınıza özel, modern ve ölçeklenebilir çözümler sunuyoruz.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {displayItems.map((item) => {
+        // İkon Belirleme: Eğer veritabanında resim yoksa, isme göre otomatik bul
+        const smartImage = (item.image && item.image.startsWith('http')) ? item.image : getSmartIcon(item.name);
+
+        return (
+        <div class="group bg-white p-8 rounded-[2.5rem] hover:shadow-2xl hover:shadow-[rgb(var(--color-primary))]/5 transition-all duration-300 border border-slate-100 hover:-translate-y-2 relative overflow-hidden">
+            
+            <div class="absolute top-0 right-0 w-24 h-24 bg-[rgb(var(--color-primary))] opacity-5 rounded-bl-full transform translate-x-4 -translate-y-4 group-hover:scale-150 transition-transform duration-500"></div>
+
+            <div class="w-16 h-16 rounded-2xl bg-[rgb(var(--color-primary))]/5 flex items-center justify-center mb-8 shadow-sm group-hover:bg-[rgb(var(--color-primary))]/10 transition-colors duration-300">
+                <img 
+                  src={smartImage} 
+                  alt={item.name} 
+                  class="w-10 h-10 object-contain drop-shadow-md transform group-hover:scale-110 transition-transform duration-500"
+                />
+            </div>
+
+            <h3 class="text-xl font-heading font-bold mb-4 text-slate-900">
+                {item.name}
+            </h3>
+            
+            <p class="text-slate-600 leading-relaxed mb-6">
+                {item.description || "Detaylı bilgi için tıklayın."}
+            </p>
+            
+            <a href={item.shopierLink || item.link} class="inline-flex items-center text-[rgb(var(--color-primary))] font-semibold text-sm group-hover:translate-x-2 transition-transform">
+                Daha Fazla Bilgi <span class="ml-2">&rarr;</span>
+            </a>
+        </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

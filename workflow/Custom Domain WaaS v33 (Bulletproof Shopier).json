@@ -1,0 +1,906 @@
+{
+  "name": "Custom Domain WaaS v33 (Bulletproof Shopier)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "crate-site",
+        "options": {}
+      },
+      "id": "6c8597d2-29c0-4ff4-b862-acfb663aedbe",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        -2000,
+        -224
+      ],
+      "webhookId": "451def7a-ff11-45c1-b1f0-15dec8491d37"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.github.com/repos/webstoreizmir/ai-agency-template/generate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"owner\": \"webstoreizmir\",\n  \"name\": \"{{ 'site-' + $('Webhook').item.json.body.customDomain.replace(/\\./g, '-').toLowerCase().trim() }}\",\n  \"description\": \"Otomatik oluşturulan site: {{ $('Webhook').item.json.body.businessName }}\",\n  \"private\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1776,
+        -224
+      ],
+      "id": "9f2689f8-145d-467f-b24d-dd75028e0046",
+      "name": "Github Create Repo",
+      "credentials": {
+        "githubApi": {
+          "id": "eYbgPgcmskvVG5ZJ",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=AIzaSyDEFxadHkECk-ufP81I2fUKVydNU_-D4Y0",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"SEN: Dünyanın en iyi UX/UI tasarımcısı ve içerik yöneticisisin. SADECE GEÇERLİ JSON DÖNDÜR. Markdown yok, yorum yok.\\n\\nMÜŞTERİ BİLGİLERİ:\\n- İşletme Adı: {{ $('Webhook').item.json.body.businessName.replace(/\\\"/g, '\\\\\\\"') }}\\n- Sektör: {{ $('Webhook').item.json.body.sector.replace(/\\\"/g, '\\\\\\\"') }}\\n- Vizyon/Tanım: {{ $('Webhook').item.json.body.description.replace(/\\\"/g, '\\\\\\\"').replace(/\\n/g, ' ') }}\\n- Hizmetler: {{ $('Webhook').item.json.body.servicesList.replace(/\\\"/g, '\\\\\\\"').replace(/\\n/g, ' ') }}\\n- Neden Biz: {{ $('Webhook').item.json.body.whyUs.replace(/\\\"/g, '\\\\\\\"').replace(/\\n/g, ' ') }}\\n- Yorumlar: {{ $('Webhook').item.json.body.testimonials.replace(/\\\"/g, '\\\\\\\"').replace(/\\n/g, ' ') }}\\n- İletişim: {{ $('Webhook').item.json.body.phone }}, {{ $('Webhook').item.json.body.email }}, {{ $('Webhook').item.json.body.address.replace(/\\\"/g, '\\\\\\\"') }}\\n- Hedef Kitle: {{ $('Webhook').item.json.body.targetAudience.replace(/\\\"/g, '\\\\\\\"') }}\\n- Tasarım Tarzı: {{ $('Webhook').item.json.body.designStyle }}\\n- Renk Tercihi: {{ $('Webhook').item.json.body.colorPreference }}\\n- Logo URL: {{ $('Webhook').item.json.body.logoUrl }}\\n- Kapak URL: {{ $('Webhook').item.json.body.heroImageUrl }}\\n\\nKRİTİK GÖREVLER:\\n1. 'images' kısmına sektörü anlatan BASİT İngilizce anahtar kelimeler yaz (Örn: 'coffee' veya 'construction'). Uzun cümle kurma.\\n2. 'process' (3 adım) ve 'faq' (4 soru) dizilerini sektöre uygun uydur.\\n\\nÇIKTI FORMATI:\\n{\\n  \\\"metadata\\\": { \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\" },\\n  \\\"theme\\\": { \\\"colors\\\": { \\\"primary\\\": \\\"...\\\", \\\"secondary\\\": \\\"...\\\", \\\"background\\\": \\\"...\\\", \\\"text\\\": \\\"...\\\" }, \\\"fonts\\\": { \\\"heading\\\": \\\"Inter\\\", \\\"body\\\": \\\"Inter\\\" }, \\\"style\\\": \\\"modern\\\" },\\n  \\\"images\\\": { \\\"hero_keyword\\\": \\\"...\\\", \\\"about_keyword\\\": \\\"...\\\", \\\"feature_keywords\\\": [\\\"...\\\", \\\"...\\\", \\\"...\\\"] },\\n  \\\"content\\\": {\\n    \\\"hero\\\": { \\\"headline\\\": \\\"...\\\", \\\"subheadline\\\": \\\"...\\\", \\\"ctaButtonText\\\": \\\"Teklif Al\\\" },\\n    \\\"about\\\": { \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\", \\\"stats\\\": [ { \\\"label\\\": \\\"...\\\", \\\"value\\\": \\\"...\\\" }, { \\\"label\\\": \\\"...\\\", \\\"value\\\": \\\"...\\\" } ] },\\n    \\\"services\\\": [ { \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\", \\\"icon\\\": \\\"✨\\\" }, { \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\", \\\"icon\\\": \\\"🚀\\\" }, { \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\", \\\"icon\\\": \\\"💼\\\" } ],\\n    \\\"process\\\": [ { \\\"step\\\": \\\"01\\\", \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\" }, { \\\"step\\\": \\\"02\\\", \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\" }, { \\\"step\\\": \\\"03\\\", \\\"title\\\": \\\"...\\\", \\\"description\\\": \\\"...\\\" } ],\\n    \\\"faq\\\": [ { \\\"question\\\": \\\"...\\\", \\\"answer\\\": \\\"...\\\" }, { \\\"question\\\": \\\"...\\\", \\\"answer\\\": \\\"...\\\" }, { \\\"question\\\": \\\"...\\\", \\\"answer\\\": \\\"...\\\" }, { \\\"question\\\": \\\"...\\\", \\\"answer\\\": \\\"...\\\" } ],\\n    \\\"testimonials\\\": [ { \\\"name\\\": \\\"...\\\", \\\"role\\\": \\\"...\\\", \\\"comment\\\": \\\"...\\\" } ],\\n    \\\"contact\\\": { \\\"address\\\": \\\"...\\\", \\\"phone\\\": \\\"...\\\", \\\"email\\\": \\\"...\\\", \\\"map_query\\\": \\\"Istanbul\\\" }\\n  }\\n}\"\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "362e490f-ba40-42a9-97aa-9a7f1950df7d",
+      "name": "Gemini Generate Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1328,
+        -224
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Gemini'den gelen veriyi al\nlet rawContent = \"\";\n\ntry {\n  if (items[0].json.candidates && items[0].json.candidates[0].content) {\n    rawContent = items[0].json.candidates[0].content.parts[0].text;\n  } else if (items[0].json.text) {\n    rawContent = items[0].json.text;\n  } else {\n    rawContent = JSON.stringify(items[0].json);\n  }\n} catch (error) {\n  throw new Error(\"Gemini verisi okunamadı.\");\n}\n\n// Temizlik\nrawContent = rawContent.replace(/```json/g, \"\").replace(/```/g, \"\").trim();\n\n// JSON Düzeltme\nif (!rawContent.endsWith('}')) {\n    const lastClose = rawContent.lastIndexOf('}');\n    if (lastClose !== -1) {\n        rawContent = rawContent.substring(0, lastClose + 1);\n    } else {\n        rawContent += '}}}'; \n    }\n}\n\nlet parsedData = {};\ntry {\n  parsedData = JSON.parse(rawContent);\n} catch (e) {\n  // HATA DURUMUNDA VARSAYILAN VERİ\n  const webhookData = $('Webhook').item.json.body;\n  parsedData = {\n      metadata: { title: webhookData.businessName, description: \"\" },\n      theme: { colors: { primary: \"#000\", secondary: \"#333\", background: \"#fff\", text: \"#000\" }, fonts: { heading: \"Inter\", body: \"Inter\" }, style: \"modern\" },\n      images: { hero_keyword: \"business\", about_keyword: \"team\", feature_keywords: [] },\n      content: { hero: { headline: webhookData.businessName, subheadline: \"Web sitemiz yapım aşamasındadır.\", ctaButtonText: \"İletişim\" }, about: {}, services: [], testimonials: [], contact: {} }\n  };\n}\n\nconst webhookData = $('Webhook').item.json.body;\nconst repoName = 'site-' + webhookData.customDomain.replace(/\\./g, '-').toLowerCase().trim();\n\nreturn [\n  {\n    json: {\n      repoName: repoName,\n      siteConfig: parsedData,\n      customDomain: webhookData.customDomain,\n      businessName: webhookData.businessName\n    }\n  }\n];"
+      },
+      "id": "fb398c08-ffcc-49f7-ae9f-6aa59175e9a9",
+      "name": "Process Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        -224
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vercel.com/v9/projects",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $('Process Data').item.json.repoName.toLowerCase() }}\",\n  \"framework\": \"astro\",\n  \"gitRepository\": {\n    \"type\": \"github\",\n    \"repo\": \"webstoreizmir/{{ $('Process Data').item.json.repoName }}\"\n  }\n}",
+        "options": {}
+      },
+      "id": "be37b3ed-b8f0-401e-bd91-f0ac8f585ffe",
+      "name": "Vercel Create Project",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -880,
+        -224
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "v4z26KDhdP8OaJ4y",
+          "name": "Header Auth account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.vercel.com/v9/projects/{{ 'site-' + $('Webhook').item.json.body.customDomain.replace(/\\./g, '-').toLowerCase().trim() }}/domains",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $('Webhook').item.json.body.customDomain }}\"\n}",
+        "options": {}
+      },
+      "id": "b2d99d10-46b7-4c2f-ab80-be56cb8722ba",
+      "name": "Vercel Add Custom Domain",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -656,
+        -224
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "v4z26KDhdP8OaJ4y",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig",
+          "mode": "list",
+          "cachedResultName": "WaaS Müşteri Takip",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Tarih": "={{ new Date().toLocaleString(\"tr-TR\") }}",
+            "İşletme Adı": "={{ $('Webhook').item.json.body.businessName }}",
+            "Domain": "={{ $('Webhook').item.json.body.customDomain }}",
+            "Sektör": "={{ $('Webhook').item.json.body.sector }}",
+            "Müşteri E-Posta": "={{ $('Webhook').item.json.body.email }}",
+            "Telefon": "={{ $('Webhook').item.json.body.phone }}",
+            "Durum": "Bekliyor",
+            "Repo Linki": "={{ 'https://github.com/webstoreizmir/' + $('Process Data').item.json.repoName }}",
+            "Canlı Site Linki": "={{ 'https://' + $('Process Data').item.json.repoName + '.vercel.app' }}",
+            "Ödeme Linki": "https://www.shopier.com/ShowProductNew/products.php?id=43115248"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Tarih",
+              "displayName": "Tarih",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "İşletme Adı",
+              "displayName": "İşletme Adı",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Domain",
+              "displayName": "Domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sektör",
+              "displayName": "Sektör",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Müşteri E-Posta",
+              "displayName": "Müşteri E-Posta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefon",
+              "displayName": "Telefon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Repo Linki",
+              "displayName": "Repo Linki",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Canlı Site Linki",
+              "displayName": "Canlı Site Linki",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Durum",
+              "displayName": "Durum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ödeme Linki",
+              "displayName": "Ödeme Linki",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sipariş No",
+              "displayName": "Sipariş No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "17c337e8-ced8-4055-8e61-71c8a15a6698",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        16,
+        -224
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Zcqv0jMV3tS0GPG7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.body.email }}",
+        "subject": "=🚀 Siteniz Hazır! İşlem Rehberi - {{ $('Webhook').item.json.body.businessName }}",
+        "message": "=<div style=\"font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;\">\n    \n    <!-- Header -->\n    <div style=\"background-color: #0f172a; padding: 30px; text-align: center;\">\n        <h1 style=\"color: #38bdf8; margin: 0; font-size: 24px;\">Siteniz Oluşturuldu! 🚀</h1>\n        <p style=\"color: #94a3b8; margin-top: 10px;\">{{ $('Webhook').item.json.body.businessName }} için kurulum tamamlandı.</p>\n    </div>\n    \n    <!-- Content -->\n    <div style=\"padding: 30px; background-color: #ffffff; color: #334155;\">\n        <p>Merhaba,</p>\n        <p>Yapay zeka sistemimiz web sitenizi tasarladı, kodladı ve sunucuya yükledi. Tasarım ve içerikler sektörünüze özel olarak hazırlandı. ✨</p>\n        \n        <p>Sitenizin tüm dünyada görünür olması için yapmanız gereken <strong>son kritik adım</strong> aşağıdadır:</p>\n        \n        <!-- Site Preview Box -->\n        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"margin: 30px 0;\">\n            <tr>\n                <td style=\"background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;\">\n                    <p style=\"margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;\">CANLI ÖNİZLEME</p>\n                    <a href=\"https://{{ $('Process Data').item.json.repoName }}.vercel.app\" target=\"_blank\" style=\"display: block; margin-top: 5px; color: #2563eb; font-size: 18px; font-weight: bold; text-decoration: none;\">\n                        👉 Siteyi Görüntülemek İçin Tıklayın\n                    </a>\n                </td>\n            </tr>\n        </table>\n        \n        <h3 style=\"color: #1e293b; margin-bottom: 10px;\">💳 Ödeme ve Aktivasyon</h3>\n        <p>Siteniz şu an \"Bekleme Modunda\"dır. DNS ayarlarınızın kontrol edilmesi ve sitenizin kalıcı olarak yayında kalması için ödeme işlemini tamamlayınız.</p>\n        \n        <!-- Payment Button (Table-based for email compatibility) -->\n        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"margin: 30px 0;\">\n            <tr>\n                <td align=\"center\">\n                    <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                        <tr>\n                            <td style=\"background-color: #10b981; border-radius: 6px; padding: 15px 30px;\">\n                                <a href=\"https://www.shopier.com/ShowProductNew/products.php?id=43115248\" target=\"_blank\" style=\"color: #ffffff; font-weight: bold; font-size: 16px; text-decoration: none; display: block;\">\n                                    💳 Ödemeyi Güvenle Yap (Shopier)\n                                </a>\n                            </td>\n                        </tr>\n                    </table>\n                    <p style=\"font-size: 12px; color: #94a3b8; margin-top: 10px;\">Kredi kartı ile 3D Secure güvenli ödeme.</p>\n                </td>\n            </tr>\n        </table>\n        \n        <hr style=\"border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;\">\n        \n        <p style=\"font-size: 14px;\"><strong>Destek mi lazım?</strong><br>\n        DNS ayarlarını yapamazsanız, domain panel şifrenizi bize iletin, sizin yerinize yapalım.</p>\n        \n        <!-- Contact Info -->\n        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"margin: 20px 0;\">\n            <tr>\n                <td style=\"background-color: #f8fafc; border-radius: 8px; padding: 15px;\">\n                    <p style=\"margin: 0; font-size: 14px; color: #64748b; font-weight: bold;\">İletişim:</p>\n                    <p style=\"margin: 5px 0 0 0; font-size: 14px; color: #334155;\">\n                        📞 <a href=\"tel:+905541103132\" style=\"color: #2563eb; text-decoration: none;\">0554 110 31 32</a>\n                    </p>\n                </td>\n            </tr>\n        </table>\n        \n        <p style=\"font-size: 14px;\">Saygılarımızla,<br><strong>İzmir WebStore Ekibi</strong></p>\n    </div>\n    \n</div>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        -224
+      ],
+      "id": "9152c24d-a513-4eb1-a876-d36bc70f1337",
+      "name": "Send a message",
+      "webhookId": "19e0e4b3-28c8-4020-8575-843127e03e30",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "caqFltmVBL1BKvdO",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const processData = $('Process Data').item.json;\nconst vercelProject = $('Vercel Create Project').item.json;\n\nreturn {\n  json: {\n    status: 'success',\n    message: 'Site başarıyla oluşturuldu!',\n    businessName: processData.businessName,\n    customDomain: processData.customDomain,\n    repository: `https://github.com/webstoreizmir/${processData.repoName}`,\n    deploymentUrl: `https://${processData.customDomain}`,\n    previewUrl: `https://${processData.repoName}.vercel.app`\n  }\n};"
+      },
+      "id": "05311a49-80d0-44ee-8a78-7fde8c27bd4f",
+      "name": "Send Success Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        -224
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 40
+      },
+      "id": "a2b3dae9-4063-4fd5-8fa4-393e1781cd15",
+      "name": "Wait 40s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1552,
+        -224
+      ],
+      "webhookId": "23d13233-2287-4345-934d-8c1737f1e72b"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "webstoreizmir",
+        "repository": "={{ $('Process Data').item.json.repoName }}",
+        "filePath": "src/data/site-config.json",
+        "additionalParameters": {
+          "reference": "main"
+        }
+      },
+      "id": "3d23d800-b939-4905-9698-1a25673259fe",
+      "name": "SHA Zorla Al",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        -224
+      ],
+      "retryOnFail": true,
+      "maxTries": 10,
+      "waitBetweenTries": 5000,
+      "webhookId": "17bbc436-cbfa-44a3-bc0f-eca84f64500e",
+      "credentials": {
+        "githubApi": {
+          "id": "eYbgPgcmskvVG5ZJ",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": "webstoreizmir",
+        "repository": "={{ $('Process Data').item.json.repoName }}",
+        "filePath": "src/data/site-config.json",
+        "fileContent": "={{ JSON.stringify($('Process Data').item.json.siteConfig, null, 2) }}",
+        "commitMessage": "Update site content"
+      },
+      "id": "7b0e84d5-53aa-43d6-82fb-82527bff7a5b",
+      "name": "Kesin Guncelle",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -224
+      ],
+      "webhookId": "7d153855-3d65-4797-8c5e-5411d910d267",
+      "credentials": {
+        "githubApi": {
+          "id": "eYbgPgcmskvVG5ZJ",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = items[0].json.body || items[0].json;\nlet email = '';\n\ntry {\n    // 1. Durum: Gerçek Ödeme (Şifreli 'res' verisi var)\n    if (body.res) {\n         const decodedString = Buffer.from(body.res, 'base64').toString('utf-8');\n         const orderData = JSON.parse(decodedString);\n         email = orderData.email;\n    } \n    // 2. Durum: Shopier Test Butonu (Düz veri veya 'email' parametresi)\n    else if (body.email) {\n         email = body.email;\n    }\n    // 3. Durum: Test verisi string içindeyse\n    else if (typeof body === 'string' && body.includes('email')) {\n         // Basit parsing denemesi\n         // (Gerekirse buraya regex eklenir ama genelde gerekmez)\n         email = 'test@test.com'; \n    }\n    else {\n         // Hiçbir şey yoksa (Manuel Tetikleme)\n         email = 'cankavlak@gmail.com'; // SENİN TEST MAİLİN (Bunu varsayılan yaptık)\n    }\n} catch(e) {\n    console.log(\"Parsing Hatası:\", e);\n    email = 'cankavlak@gmail.com'; // Hata olursa senin mailini kullansın\n}\n\n// Email boşsa yine varsayılanı ata\nif (!email) email = 'cankavlak@gmail.com';\n\nreturn [{ json: { email: email } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1536,
+        -432
+      ],
+      "id": "4e27c1a6-ab03-42fe-bfe1-7f7f894b2120",
+      "name": "Maili Akilli Ayikla"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig",
+          "mode": "list",
+          "cachedResultName": "WaaS Müşteri Takip",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Müşteri E-Posta",
+              "lookupValue": "={{ $('Maili Akilli Ayikla').item.json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e38dd40b-19d3-40f3-8112-28057c8dd6b4",
+      "name": "Tablodan Bul",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1312,
+        -432
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Zcqv0jMV3tS0GPG7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const sheetData = items[0].json;\n\nif (!sheetData || !sheetData['Repo Linki']) {\n    throw new Error(\"Repo Linki Bulunamadı! Tabloda bu mail için kayıt yok: \" + $('Maili Akilli Ayikla').item.json.email);\n}\n\nlet repoLink = sheetData['Repo Linki'];\nif (repoLink.endsWith('/')) repoLink = repoLink.slice(0, -1);\nconst repoName = repoLink.split('/').pop();\n\nreturn [{\n    json: {\n        repoName: repoName,\n        email: sheetData['Müşteri E-Posta'],\n        rowNumber: sheetData.row_number\n    }\n}];"
+      },
+      "id": "40197c72-436d-429c-a7ea-ab8239aaf125",
+      "name": "Repo Adi Al",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1088,
+        -432
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "webstoreizmir",
+        "repository": "={{ $json.repoName }}",
+        "filePath": "src/data/site-config.json",
+        "asBinaryProperty": false,
+        "additionalParameters": {
+          "reference": "main"
+        }
+      },
+      "id": "e427d6b6-bb9d-417d-a924-19f4dab056cd",
+      "name": "Dosyayi Oku",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        -432
+      ],
+      "webhookId": "16d1c48d-fc58-4837-bef5-28a38ec85c0b",
+      "credentials": {
+        "githubApi": {
+          "id": "eYbgPgcmskvVG5ZJ",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Dosyayi Oku node'undan gelen veriyi al\nconst githubData = $input.first().json;\n\nconsole.log('GitHub Data Keys:', Object.keys(githubData));\n\n// Content kontrolü\nif (!githubData.content) {\n    throw new Error('GitHub content yok! Data: ' + JSON.stringify(githubData, null, 2));\n}\n\n// Base64'ten decode et ve parse et\nlet siteConfig = {};\ntry {\n    const decodedContent = Buffer.from(githubData.content, 'base64').toString('utf-8');\n    siteConfig = JSON.parse(decodedContent);\n} catch(e) {\n    throw new Error('Parse hatası: ' + e.message);\n}\n\n// Metadata güncelle\nsiteConfig.metadata = siteConfig.metadata || {};\nsiteConfig.metadata.isPaid = true;\nsiteConfig.metadata.paidAt = new Date().toISOString();\nsiteConfig.metadata.demoMode = false;\n\n// Repo adını ve email'i önceki node'lardan al\nconst repoName = $('Repo Adi Al').first().json.repoName;\nconst email = $('Repo Adi Al').first().json.email;\n\n// Return\nreturn [{\n    json: {\n        repoName: repoName,\n        content: JSON.stringify(siteConfig, null, 2),\n        sha: githubData.sha,\n        email: email\n    }\n}];\n"
+      },
+      "id": "714811a4-a79f-483f-8636-6a32c65e8d95",
+      "name": "Veriyi Guncelle",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        -432
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": "webstoreizmir",
+        "repository": "={{ $json.repoName }}",
+        "filePath": "src/data/site-config.json",
+        "fileContent": "={{ $json.content }}",
+        "commitMessage": "Ödeme Tamamlandı - Site Aktif Ediliyor. 🚀"
+      },
+      "id": "90b681f4-a1f7-4c6d-b63c-c6b59b4d37e5",
+      "name": "GitHub Kaydet",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        -432
+      ],
+      "webhookId": "72c3b0a6-f73a-4a3b-b616-8c8e1a51d438",
+      "credentials": {
+        "githubApi": {
+          "id": "eYbgPgcmskvVG5ZJ",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig",
+          "mode": "list",
+          "cachedResultName": "WaaS Müşteri Takip",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Gj-Pnn9kLSMInJmdB0Abt9YyLi3YQ1zuhFuXWRJ_Vig/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Durum": "ÖDENDİ - AKTİF",
+            "Müşteri E-Posta": "={{ $('Repo Adi Al').item.json.email }}"
+          },
+          "matchingColumns": [
+            "Müşteri E-Posta"
+          ],
+          "schema": [
+            {
+              "id": "Durum",
+              "displayName": "Durum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Müşteri E-Posta",
+              "displayName": "Müşteri E-Posta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "options": {}
+        },
+        "options": {}
+      },
+      "id": "8eccef85-ec96-4887-b089-1d441a110146",
+      "name": "Tabloyu Guncelle",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -208,
+        -432
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Zcqv0jMV3tS0GPG7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Repo Adi Al').item.json.email }}",
+        "subject": "Ödemeniz Onaylandı! Siteniz Yayında 🚀",
+        "message": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;\">\n    <h2 style=\"color: #10b981;\">✅ Tebrikler!</h2>\n    <p>Ödemeniz başarıyla alındı ve siteniz üzerindeki <strong>Demo Kilidi</strong> kaldırıldı.</p>\n    <p>Web siteniz şu an aktif:</p>\n    <p style=\"font-size: 18px; font-weight: bold;\">\n        <a href=\"https://{{ $('Repo Adi Al').item.json.repoName }}.vercel.app\">👉 Siteye Gitmek İçin Tıkla</a>\n    </p>\n    <br>\n    <p>Bizi tercih ettiğiniz için teşekkür ederiz.</p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        -432
+      ],
+      "id": "045de119-69c6-4332-9b0c-3bcd9cd2f694",
+      "name": "Mail At",
+      "webhookId": "0e2be2e2-521c-432d-bc4d-9eecb62d84ea",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "caqFltmVBL1BKvdO",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "OK",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -1760,
+        -432
+      ],
+      "id": "08139ca5-b4c6-4be2-927a-c1c8c139535c",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "shopier-test",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1984,
+        -432
+      ],
+      "id": "c7d56dda-97fc-4993-8990-d6dc81e7a0af",
+      "name": "Webhook1",
+      "webhookId": "df9db40b-cd4b-4193-b3cc-0bb9ec00f5df"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Github Create Repo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Github Create Repo": {
+      "main": [
+        [
+          {
+            "node": "Wait 40s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Generate Content": {
+      "main": [
+        [
+          {
+            "node": "Process Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Data": {
+      "main": [
+        [
+          {
+            "node": "Vercel Create Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vercel Create Project": {
+      "main": [
+        [
+          {
+            "node": "Vercel Add Custom Domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vercel Add Custom Domain": {
+      "main": [
+        [
+          {
+            "node": "SHA Zorla Al",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Send Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 40s": {
+      "main": [
+        [
+          {
+            "node": "Gemini Generate Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SHA Zorla Al": {
+      "main": [
+        [
+          {
+            "node": "Kesin Guncelle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kesin Guncelle": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tablodan Bul": {
+      "main": [
+        [
+          {
+            "node": "Repo Adi Al",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Repo Adi Al": {
+      "main": [
+        [
+          {
+            "node": "Dosyayi Oku",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dosyayi Oku": {
+      "main": [
+        [
+          {
+            "node": "Veriyi Guncelle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Veriyi Guncelle": {
+      "main": [
+        [
+          {
+            "node": "GitHub Kaydet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Kaydet": {
+      "main": [
+        [
+          {
+            "node": "Tabloyu Guncelle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tabloyu Guncelle": {
+      "main": [
+        [
+          {
+            "node": "Mail At",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Maili Akilli Ayikla": {
+      "main": [
+        [
+          {
+            "node": "Tablodan Bul",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Maili Akilli Ayikla",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "febe284e-e10b-440d-b45d-c9d4431dfb83",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b56ddc89c543c37a527873a6c5c089de921d3f1d30d521cb9f209ca000535249"
+  },
+  "id": "8yiQzGS45vK3GIVy",
+  "tags": []
+}
